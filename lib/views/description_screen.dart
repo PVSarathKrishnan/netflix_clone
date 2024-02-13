@@ -21,7 +21,7 @@ class DescriptionPage extends StatelessWidget {
             width: 70,
             margin: EdgeInsets.only(top: 16, left: 16),
             decoration: BoxDecoration(
-                color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                color: Colors.black.withOpacity(.4), borderRadius: BorderRadius.circular(15)),
             child: IconButton(
                 onPressed: () {
                   Navigator.pop(context);

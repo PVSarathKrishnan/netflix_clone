@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:netflix_clone/api/api.dart';
 import 'package:netflix_clone/models/movies.dart';
 import 'package:netflix_clone/style/text_style.dart';
+import 'package:netflix_clone/views/news_screen.dart';
 import 'package:netflix_clone/widgets/movie_slider.dart';
 import 'package:netflix_clone/widgets/trending_movies_slider.dart';
 

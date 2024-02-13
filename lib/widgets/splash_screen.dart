@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:netflix_clone/widgets/bottom_nav_bar.dart';
 import 'package:netflix_clone/views/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class SplashScreen extends StatelessWidget {
       ),
       duration: 3000,
       backgroundColor: Colors.black,
-      nextScreen: HomeScreen(),
+      nextScreen: BottomNavBar(),
     );
   }
 }
