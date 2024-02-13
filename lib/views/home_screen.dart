@@ -12,16 +12,21 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
-
   //calling api
-late Future<List<Movie>> trendingMovies;
-@override
-void initState() {
-  super.initState();
-  trendingMovies = Api().getTrendingMovies();
-}
+  late Future<List<Movie>> trendingMovies;
+  late Future<List<Movie>> topRatedMovies;
+  late Future<List<Movie>> upcominggMovies;
+  late Future<List<Movie>> nowPlayingMovies;
+
+  @override
+  void initState() {
+    super.initState();
+    trendingMovies = Api().getTrendingMovies();
+    topRatedMovies = Api().getTopRatedMovies();
+    upcominggMovies = Api().getUpcomingMovies();
+    nowPlayingMovies = Api().getNowPlayingMovies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +59,31 @@ void initState() {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
                 child: Text("Trending Movies", style: Headings),
               ),
-              TrendingSlider(),
+              SizedBox(
+                child: FutureBuilder(
+                  future: trendingMovies,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    } else if (snapshot.hasData) {
+                      // final data = snapshot.data;
+                      return TrendingSlider(
+                        snapshot: snapshot,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 240, 0, 0)),
+                      );
+                    }
+                  },
+                ),
+              ),
               //top rated collection
               SizedBox(
                 height: 20,
@@ -66,9 +91,54 @@ void initState() {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+                child: Text("Now Playing", style: Headings),
+              ),
+              SizedBox(
+                child: FutureBuilder(
+                  future: nowPlayingMovies,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    } else if (snapshot.hasData) {
+                      return MoviesSlider(snapshot: snapshot);
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 240, 0, 0)),
+                      );
+                    }
+                  },
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
                 child: Text("Top Rated Movies", style: Headings),
               ),
-              MoviesSlider(),
+              SizedBox(
+                child: FutureBuilder(
+                  future: topRatedMovies,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    } else if (snapshot.hasData) {
+                      // final data = snapshot.data;
+                      return MoviesSlider(
+                        snapshot: snapshot,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 240, 0, 0)),
+                      );
+                    }
+                  },
+                ),
+              ),
               //Up coming movies
 
               SizedBox(
@@ -79,7 +149,28 @@ void initState() {
                     const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
                 child: Text("Upcoming Movies", style: Headings),
               ),
-              MoviesSlider()
+              SizedBox(
+                child: FutureBuilder(
+                  future: upcominggMovies,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    } else if (snapshot.hasData) {
+                      // final data = snapshot.data;
+                      return MoviesSlider(
+                        snapshot: snapshot,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 240, 0, 0)),
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),
