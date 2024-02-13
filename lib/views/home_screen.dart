@@ -1,6 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/api/api.dart';
+import 'package:netflix_clone/models/movies.dart';
 import 'package:netflix_clone/style/text_style.dart';
+import 'package:netflix_clone/widgets/movie_slider.dart';
+import 'package:netflix_clone/widgets/trending_movies_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,7 +12,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
+
+  //calling api
+late Future<List<Movie>> trendingMovies;
+@override
+void initState() {
+  super.initState();
+  trendingMovies = Api().getTrendingMovies();
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.black87, Colors.black54], // Add background gradient
+            colors: const [
+              Colors.black87,
+              Colors.black54
+            ], // Add background gradient
           ),
         ),
         child: SingleChildScrollView(
@@ -40,38 +56,30 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
-                child: Text(
-                  "Trending Movies",
-                  style: Headings
-                ),
+                child: Text("Trending Movies", style: Headings),
               ),
+              TrendingSlider(),
+              //top rated collection
               SizedBox(
-                height: 300,
-                child: CarouselSlider.builder(
-                  itemCount: 10,
-                  options: CarouselOptions(
-                    height: 300,
-                    viewportFraction: 0.6, // Adjust visible item size
-                    enableInfiniteScroll: true, // Enable infinite scroll
-                    autoPlay: true, // Enable auto-play
-                    autoPlayInterval:
-                        Duration(seconds: 3), // Set auto-play interval
-                  ),
-                  itemBuilder: (context, itemIndex, pageViewIndex) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              "https://via.placeholder.com/200x300"), // Use actual movie poster image
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                    );
-                  },
-                ),
+                height: 20,
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+                child: Text("Top Rated Movies", style: Headings),
+              ),
+              MoviesSlider(),
+              //Up coming movies
+
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+                child: Text("Upcoming Movies", style: Headings),
+              ),
+              MoviesSlider()
             ],
           ),
         ),
