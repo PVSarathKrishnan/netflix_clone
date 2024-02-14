@@ -15,6 +15,10 @@ class Api {
 
   static const _nowPlayingUrl =
       "https://api.themoviedb.org/3/movie/now_playing?api_key=${Constants.apiKey}";
+
+static const _searchUrl =
+      "https://api.themoviedb.org/3/search/movie?api_key=${Constants.apiKey}&query=";
+
   //Api call for Movies
   //Now playing
 
@@ -27,7 +31,7 @@ class Api {
       throw Exception("Something bad happend,at now playing movies");
     }
   }
-
+//debouncer,interceptor,auth token,serielization,json
   //trending
   Future<List<Movie>> getTrendingMovies() async {
     final response = await http.get(Uri.parse(_trendingUrl));
@@ -58,6 +62,17 @@ class Api {
       return decodedData.map((m) => Movie.fromJson(m)).toList();
     } else {
       throw Exception("Something bad happend, at upcoming movies");
+    }
+  }
+
+  //searching method
+    Future<List<Movie>> searchMovies(String query) async {
+    final response = await http.get(Uri.parse(_searchUrl + query));
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(response.body)["results"] as List;
+      return decodedData.map((m) => Movie.fromJson(m)).toList();
+    } else {
+      throw Exception("Failed to search movies");
     }
   }
 }
