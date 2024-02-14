@@ -16,14 +16,14 @@ class Api {
   static const _nowPlayingUrl =
       "https://api.themoviedb.org/3/movie/now_playing?api_key=${Constants.apiKey}";
 
-static const _searchUrl =
+  static const _searchUrl =
       "https://api.themoviedb.org/3/search/movie?api_key=${Constants.apiKey}&query=";
 
   //Api call for Movies
   //Now playing
 
   Future<List<Movie>> getNowPlayingMovies() async {
-    final response = await http.get(Uri.parse(_nowPlayingUrl));
+    final response = await http.get(Uri.parse(_nowPlayingUrl));//get method
     if (response.statusCode == 200) {
       final decodedData = json.decode(response.body)["results"] as List;
       return decodedData.map((m) => Movie.fromJson(m)).toList();
@@ -31,6 +31,7 @@ static const _searchUrl =
       throw Exception("Something bad happend,at now playing movies");
     }
   }
+
 //debouncer,interceptor,auth token,serielization,json
   //trending
   Future<List<Movie>> getTrendingMovies() async {
@@ -66,7 +67,7 @@ static const _searchUrl =
   }
 
   //searching method
-    Future<List<Movie>> searchMovies(String query) async {
+  Future<List<Movie>> searchMovies(String query) async {
     final response = await http.get(Uri.parse(_searchUrl + query));
     if (response.statusCode == 200) {
       final decodedData = json.decode(response.body)["results"] as List;

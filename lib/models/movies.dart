@@ -17,18 +17,19 @@ class Movie {
     required this.voteAverage,
   });
 
+
+
 factory Movie.fromJson(Map<String, dynamic> json) {
   return Movie(
     title: json["title"] ?? "Unknown Title",
-    backDropPath: json["backdrop_path"] ?? "", // Provide a default value or empty string
+    backDropPath: json["backdrop_path"] ?? "",
     originalTitle: json["original_title"] ?? "",
     overview: json["overview"] ?? "No overview available",
-    posterPath: json["poster_path"] ?? "", // Provide a default value or empty string
+    posterPath: json["poster_path"] ?? "", 
     releaseDate: json["release_date"] ?? "",
-    voteAverage: json["vote_average"] ?? 0.0, // Provide a default value or 0.0
+    voteAverage: json["vote_average"] ?? 0.0, 
   );
 }
 
-  //post
   
 }
