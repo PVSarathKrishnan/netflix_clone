@@ -5,7 +5,6 @@ import 'package:netflix_clone/api/api.dart';
 import 'package:netflix_clone/models/movies.dart';
 import 'package:netflix_clone/style/text_style.dart';
 import 'package:netflix_clone/views/description_screen.dart';
-import 'package:netflix_clone/views/news_screen.dart';
 import 'package:netflix_clone/widgets/constants.dart';
 import 'package:netflix_clone/widgets/movie_slider.dart';
 import 'package:netflix_clone/widgets/trending_movies_slider.dart';
@@ -25,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Movie>> nowPlayingMovies;
   late TextEditingController _searchController;
   late StreamController<List<Movie>> _searchResultsController;
-  Timer? _debounce;
+
 
   @override
   void initState() {
@@ -45,32 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _onSearchTextChanged(String text) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      // Call your search function here with the text entered in the search bar
-      _searchMovies(text);
-    });
-  }
-
-  void _searchMovies(String query) {
-    if (query.isNotEmpty) {
-      // Perform search operation using API
-      Api().searchMovies(query).then((movies) {
-        _searchResultsController.add(movies);
-      }).catchError((error) {
-        _searchResultsController.addError(error);
-      });
-    } else {
-      _searchResultsController.add([]);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black, // Adjust app bar color
+        backgroundColor: Colors.black, 
         elevation: 0,
         title: Image.asset(
           "lib/assets/logo.png",
@@ -309,10 +287,8 @@ class MovieSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // Implement logic to show suggestions as the user types
-    return Container(
-      child: Center(
-        child: Text('Search Suggestions for: $query'),
-      ),
+    return Center(
+      child: Text('Search Suggestions for: $query'),
     );
   }
 }
