@@ -20,6 +20,7 @@ class Api {
       "https://api.themoviedb.org/3/search/movie?api_key=${Constants.apiKey}&query=";
 
   //Api call for Movies
+
   //Now playing
 
   Future<List<Movie>> getNowPlayingMovies() async {
@@ -32,7 +33,7 @@ class Api {
     }
   }
 
-//debouncer,interceptor,auth token,serielization,json
+
   //trending
   Future<List<Movie>> getTrendingMovies() async {
     final response = await http.get(Uri.parse(_trendingUrl));
@@ -66,7 +67,8 @@ class Api {
     }
   }
 
-  //searching method
+  //searching method 
+  // by using Query 
   Future<List<Movie>> searchMovies(String query) async {
     final response = await http.get(Uri.parse(_searchUrl + query));
     if (response.statusCode == 200) {
